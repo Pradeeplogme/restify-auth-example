@@ -1,0 +1,44 @@
+{
+  "name": "restify-auth-exemple",
+  "version": "1.0.0",
+  "description": "Authentication exemple on Restify by @derevandal",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deregudegu/restify-auth-exemple.git"
+  },
+  "keywords": [
+    "restify",
+    "auth",
+    "exemple",
+    "authentication",
+    "jwt",
+    "token"
+  ],
+  "author": "André Van Dal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deregudegu/restify-auth-exemple/issues"
+  },
+  "homepage": "https://github.com/deregudegu/restify-auth-exemple#readme",
+  "dependencies": {
+    "jsonwebtoken": "^6.2.0",
+    "mongoose": "^4.4.16",
+    "morgan": "^1.7.0",
+    "node-uuid": "^1.4.7",
+    "restify": "^4.0.4",
+    "restify-url-semver": "^1.0.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-nodemon": "^2.0.7",
+    "gulp-notify": "^2.2.0",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0",
+    "restify-logger": "^2.0.1"
+  }
+}
