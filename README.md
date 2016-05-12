@@ -1,2 +1,2 @@
-# restify-auth-exemple
-Authentication exemple on Restify
+# Restify Authentication Exemple
+Authentication exemple on Restify by @derevandal
