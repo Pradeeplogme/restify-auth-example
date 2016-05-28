@@ -6,15 +6,15 @@ Authentication exemple on Restify with JWT and Permissions
 2. Done :P
 
 ## Routes
-| Endpoint   | Body Parameters | description |
-| :------------- | :------------- | :------------- |
-| POST `/register`       | `{ username: 'username', password: 'password'} `| Register a user |
-| POST `/login`       | `{ username: 'username', password: 'password'} `| Returns the user's access token |
-| GET `/user/:id`       | - | Returns user's details |
-| DEL `/user/:id`       | - | Remove user by id |
-| PUT `/user/:id`       | ` { username: "username", email: "email@email.com", password: "password", fullname: "full name", picture: "picture id", permissions: ['user.read'] }`| Change user data |
-|GET `/users`| - | Returns all users with details|
-|DEL `/users`| - | Remove all user |
+| Endpoint         | Description                     | Body Parameters                                                                                                                                      |
+|------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| POST `/register` | Register a user                 | `{ username: 'username', password: 'password'} `                                                                                                     |
+| POST `/login`    | Returns the user's access token | `{ username: 'username', password: 'password'} `                                                                                                     |
+| GET `/user/:id`  | Returns user's details          | -                                                                                                                                                    |
+| DEL `/user/:id`  | Remove user by id               | -                                                                                                                                                    |
+| PUT `/user/:id`  | Change user data                | `{ username: "username", email: "email@email.com", password: "password", fullname: "full name", picture: "picture id", permissions: ['user.read'] }` |
+| GET `/users`     | Returns all users with details  | -                                                                                                                                                    |
+| DEL `/users`     | Remove all user                 | -                                                                                                                                                    |
 
 ## Contributing
 1. Fork it!
