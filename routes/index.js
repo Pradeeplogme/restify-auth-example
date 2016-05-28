@@ -1,41 +1,44 @@
 'use strict'
 
-const User   = require('../models/User'),
-			jwt = require('jsonwebtoken'),
-			config = require('../config');
+const userController = require('../controllers/userController.js')
+	, jwt = require('jsonwebtoken')
+	, config = require('../config');
+
 
 function isAuthenticated(req, res, next) {
-
-	const token = req.query.token || req.headers['authorization'];
+	let token = req.query.token || req.headers['authorization'].split('Bearer: ')[1];
 	if (token) {
      jwt.verify(token, config.secret, (err, decoded) => {
-			 if (err) return res.json({ success: false, message: 'Failed to authenticate token.' });
+			 if (err) return res.json(403,{ success: false, message: 'Failed to authenticate token.' });
 			 req.decoded = decoded;
 			 next();
      });
    } else
-     return res.status(403).send({
+     res.json(403,{
          success: false,
          message: 'No token provided.'
      });
-}
-
-function isAdmin(req, res, next) {
-   if (!req.decoded.admin)
-     return res.status(403).send({
-         success: false,
-         message: 'No token provided.'
-     });
-		 next();
 }
 
 module.exports = function(app) {
 
+	app.post('/login', userController.authUser);
+	app.post('/register', userController.createUser);
+
+	app.get('/user/:id', isAuthenticated, (req,res,next) => userController.hadPermission('user.read', req, res, userController.readUser));
+	app.del('/user/:id', isAuthenticated, (req,res,next) => userController.hadPermission('user.delete', req, res, userController.deleteUser));
+	app.put('/user/:id', isAuthenticated, (req,res,next) => userController.hadPermission('user.update', req, res, userController.updateUser));
+
+	app.get('/users', isAuthenticated, (req,res,next) => userController.hadPermission('users.read', req, res, userController.readUsers));
+	app.del('/users', isAuthenticated, (req,res,next) => userController.hadPermission('users.delete', req, res, userController.deleteUsers));
+
+
+/*
 	app.post('/user', isAuthenticated, isAdmin, function(req, res) {
 
 		/*User.remove({ name: 'admin2' }, function (err) {
 			if (err) return handleError(err);
-		});*/
+		});*
 
 		var nick = new User({
 			name: req.body.username,
@@ -93,8 +96,7 @@ module.exports = function(app) {
 				res.json({ success: false, message: 'Authentication failed. Wrong user/password.' })
 			);
 	});
-
-	app.get
+*/
 
 
 }

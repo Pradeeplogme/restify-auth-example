@@ -25,11 +25,13 @@
   },
   "homepage": "https://github.com/deregudegu/restify-auth-exemple#readme",
   "dependencies": {
-    "jsonwebtoken": "^6.2.0",
-    "mongoose": "^4.4.16",
+    "jsonwebtoken": "^7.0.0",
+    "mongoose": "^4.4.19",
+    "mongoose-unique-validator": "^1.0.2",
+    "mongoose-validator": "^1.2.5",
     "morgan": "^1.7.0",
     "node-uuid": "^1.4.7",
-    "restify": "^4.0.4",
+    "restify": "^4.1.0",
     "restify-url-semver": "^1.0.1"
   },
   "devDependencies": {

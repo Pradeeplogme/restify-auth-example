@@ -11,7 +11,6 @@ const restify = require( 'restify' )
     , User   = require('./models/User')
     , port = process.env.PORT || 8080;
 
-
 mongoose.connect(config.database);
 
 // Plugins
