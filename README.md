@@ -7,7 +7,7 @@ Authentication exemple on Restify with JWT and Permissions
 
 ## Routes
 | Endpoint   | Body Parameters | description |
-| :------------- | :------------- |
+| :------------- | :------------- | | :------------- |
 | POST `/register`       | `{ username: 'username', password: 'password'} `| Register a user |
 | POST `/login`       | `{ username: 'username', password: 'password'} `| Returns the user's access token |
 | GET `/user/:id`       | - | Returns user's details |
