@@ -23,8 +23,14 @@ Authentication exemple on Restify with JWT and Permissions
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+##To do
+1. updateUser
+2. deleteUser
+3. deleteUsers
+4. Improve permissions system with group permissions
+
 ## History
-TODO: Write history
+I tried find today's examples about authentication and I didn't find. So I started this repository to contribute with the community and improve my knowledge.
 
 ## Credits
 Today just [me](http://github.com/deregudegu) but you can contribute too!
