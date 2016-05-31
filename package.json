@@ -31,6 +31,7 @@
     "mongoose-validator": "^1.2.5",
     "morgan": "^1.7.0",
     "node-uuid": "^1.4.7",
+    "q": "^1.4.1",
     "restify": "^4.1.0",
     "restify-url-semver": "^1.0.1"
   },

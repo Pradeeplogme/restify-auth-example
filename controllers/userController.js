@@ -1,7 +1,9 @@
 'use strict';
 const User   = require('../models/User')
 	, jwt = require('jsonwebtoken')
-	, config = require('../config');
+	, config = require('../config')
+	,	crypto = require('crypto')
+	, Q = require("q");
 
 function errorHandler(err){
   if (err && err.name === 'ValidationError') {
@@ -19,18 +21,51 @@ function errorHandler(err){
   return err;
 }
 
+const generateSalt = function(length=32) {
+  const deferred = Q.defer();
+  crypto.randomBytes(length, function(err, buf) {
+    if(err) deferred.reject(new Error(err));
+    deferred.resolve(buf.toString());
+  });
+  return deferred.promise;
+}
+,	hashPassword = function(password, salt) {
+  const deferred = Q.defer();
+	crypto.pbkdf2(password, salt, 12500, 512, 'sha512', (err, key) => {
+		if(err) deferred.reject(new Error(err));
+		deferred.resolve(key.toString('hex'));
+	});
+  return deferred.promise;
+}
+,	comparePassword = function(newPassword, oldPassword, salt) {
+  var deferred = Q.defer();
+  hashPassword(newPassword, salt).then(function(hash) {
+		if(hash === oldPassword) deferred.resolve();
+		else deferred.reject('Invalid password.');
+	})
+  return deferred.promise;
+}
+, lolLol = function (a) {
+	const deferred = Q.defer();
+	return deferred.resolve('a');
+}
 const userController = {
+
   authUser: function (req,res) {
-    User
+		let _u;
+		User
 			.findOne({username: req.body.username})
-			.then(user => {
-				if(user && user.password === req.body.password)
-  				return res.json(200, {
-  					success: true,
-  					message: 'Enjoy your token!',
-  					token: jwt.sign(JSON.stringify({mySelf: user.id}), config.secret)
-  				});
-        else Promisse.rejected();
+			.then(user=>{
+				_u = user;
+				return user;
+			})
+			.then(user=>comparePassword(req.body.password, user.password, user.salt))
+			.then(a=>{
+				res.json(200, {
+					success: true,
+					message: 'Enjoy your token!',
+					token: jwt.sign(JSON.stringify({mySelf: _u.id}), config.jwtSecrect)
+				})
 			})
 			.catch(err => {
 				return res.json(403,{ success: false, message: 'Authentication failed. Wrong user/password.'});
@@ -46,15 +81,24 @@ const userController = {
       .catch((e)=> res.json(403,{ success: false, message: 'You doesn\'t have permission to do it.'}));
 	},
   createUser: function(req,res){
-      new User(req.body).save()
-      .then((r)=>{
-        console.log('User '+r.usename+' saved successfully');
-        res.json({ success: true });
-      })
-      .catch((e)=> res.json(501,errorHandler(e)));
+		let data = req.body;
+		console.log(data);
+		generateSalt(32).then(salt=>{
+			data.salt = salt;
+			hashPassword(data.password, data.salt).then(newPassword => {
+				data.password = newPassword;
+				new User(data).save()
+	      .then((r)=>{
+	        res.json(200, { success: true, message: 'User saved successfully'});
+	      }).catch((e)=> res.json(501,errorHandler(e)));
+			}).catch((e)=> res.json(501,errorHandler(e)));
+		}).catch((e)=> res.json(501,errorHandler(e)));
+
+
+
   },
   readUser: function (req,res){
-    User.findById(req.params.id)
+    User.findOne({ username: req.params.id })
       .then((r)=>{
           res.json(r);
       })
@@ -64,15 +108,22 @@ const userController = {
     res.json(404, {message: '#TODO'});
   },
   deleteUser: function (req,res) {
-    res.json(404, {message: '#TODO'});
+		User
+		.findOneAndRemove({ username: req.params.id })
+		.then(res.json(200, { success: true, message: 'User removed.'}))
+		.catch(res.json(501, { success: false, message: 'User didn\'t find.'}));
   },
   readUsers: function (req,res) {
     User.find()
-    .then((r)=>res.json(200,users))
+    .then((r)=>res.json(200,r))
     .catch((e)=> res.json(501,errorHandler(e)));
   },
   deleteUsers: function (req,res) {
-    res.json(404, {message: '#TODO'});
+		/*User
+		.findAndRemove()
+		.then(res.json(200, { success: true, message: 'User removed.'}))
+		.catch(res.json(501, { success: false, message: 'User didn\'t find.'}));*/
+		res.json(404,{message:"#TODO"});
   },
 };
 

@@ -6,18 +6,26 @@ const userController = require('../controllers/userController.js')
 
 
 function isAuthenticated(req, res, next) {
-	let token = req.query.token || req.headers['authorization'].split('Bearer: ')[1];
-	if (token) {
-     jwt.verify(token, config.secret, (err, decoded) => {
-			 if (err) return res.json(403,{ success: false, message: 'Failed to authenticate token.' });
-			 req.decoded = decoded;
-			 next();
-     });
-   } else
-     res.json(403,{
-         success: false,
-         message: 'No token provided.'
-     });
+	try{
+		let token = req.query.token || req.headers['authorization'].split('Bearer: ')[1];
+		if (token) {
+	     jwt.verify(token, config.jwtSecrect, (err, decoded) => {
+				 if (err) return res.json(403,{ success: false, message: 'Failed to authenticate token.' });
+				 req.decoded = decoded;
+				 next();
+	     });
+	   } else
+	     res.json(403,{
+	         success: false,
+	         message: 'No token provided.'
+	     });
+	 }
+	 catch(err){
+		 res.json(403,{
+				 success: false,
+				 message: 'No token provided.'
+		 });
+	 }
 }
 
 module.exports = function(app) {

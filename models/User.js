@@ -20,20 +20,32 @@ const mongoose = require('mongoose')
         message: 'E-mail must be valid.'
       })
     ];
-let UserSchema = new Schema({
-    username: { type: String, unique : true, required : true, validate: usernameValidator },
-    email: { type: String, unique : true, required : true, validate: emailValidator },
-    password: { type: String, required : true },
-    fullname: { type: String, required : true, min:10, validade: fullnameValidator },
-    picture: { type: String },
-    permissions: { type: Array },
+let userSchema = new Schema({
+  username: { type: String, unique : true, required : true, validate: usernameValidator }
+  , email: { type: String, unique : true, required : true, validate: emailValidator }
+  , password: { type: String, required : true }
+  , salt: { type: String }
+  , fullname: { type: String, required : true, min:10, validade: fullnameValidator }
+  , picture: { type: String }
+  , permissions: { type: Array }
+  , created_at: Date
+  , updated_at: Date
 });
 
-if (!UserSchema.options.toJSON) UserSchema.options.toJSON = {};
-UserSchema.options.toJSON.transform = (doc, ret) => delete ret.password && delete ret._id && delete ret.__v && ret;
-UserSchema.plugin(uniqueValidator);
+userSchema.pre('save', function(next) {
+  let currentDate = new Date();
+  this.updated_at = currentDate;
+  if (!this.created_at)
+    this.created_at = currentDate;
+
+  next();
+});
+
+if (!userSchema.options.toJSON) userSchema.options.toJSON = {};
+userSchema.options.toJSON.transform = (doc, ret) => delete ret.password && delete ret.salt && delete ret._id && delete ret.__v && ret;
+userSchema.plugin(uniqueValidator);
 mongoose.Promisse = global.Promisse;
-let User = mongoose.model('User', UserSchema);
+let User = mongoose.model('User', userSchema);
 
 
 module.exports = User;
