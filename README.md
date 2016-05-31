@@ -1,8 +1,8 @@
-# Restify Authentication Exemple
-Authentication exemple on Restify with JWT and Permissions
+# Restify Authentication Example
+Authentication example on Restify with JWT and Permissions
 
 ## Installation
-1. Clone this repository: `git clone https://github.com/deregudegu/restify-auth-exemple/`
+1. Clone this repository: `git clone https://github.com/deregudegu/restify-auth-example/`
 2. Done :P
 
 ## Routes
