@@ -8,18 +8,18 @@ Authentication example on Restify with JWT and Permissions
 ## Routes
 | Endpoint         | Description                     | Body Parameters                                                                                                                                      |
 |------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| POST `/register` | Register a user                 | `{ username: 'username', password: 'password'} `                                                                                                     |
-| POST `/login`    | Returns the user's access token | `{ username: 'username', password: 'password'} `                                                                                                     |
-| GET `/user/:id`  | Returns user's details          | -                                                                                                                                                    |
+| POST `/register` | Register a user                 | `{ username: "username", password: "password"} `                                                                                                     |
+| POST `/login`    | Returns the user"s access token | `{ username: "username", password: "password"} `                                                                                                     |
+| GET `/user/:id`  | Returns user"s details          | -                                                                                                                                                    |
 | DEL `/user/:id`  | Remove user by id               | -                                                                                                                                                    |
-| PUT `/user/:id`  | Change user data                | `{ username: "username", email: "email@email.com", password: "password", fullname: "full name", picture: "picture id", permissions: ['user.read'] }` |
+| PUT `/user/:id`  | Change user data                | `{ username: "username", email: "email@email.com", password: "password", fullname: "full name", picture: "picture id", permissions: ["user.read"] }` |
 | GET `/users`     | Returns all users with details  | -                                                                                                                                                    |
 | DEL `/users`     | Remove all user                 | -                                                                                                                                                    |
 
 ## Contributing
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
+3. Commit your changes: `git commit -am "Add some feature"`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
@@ -30,7 +30,7 @@ Authentication example on Restify with JWT and Permissions
 4. Improve permissions system with group permissions
 
 ## History
-I tried find today's examples about authentication and I didn't find. So I started this repository to contribute with the community and improve my knowledge.
+I tried find today"s examples about authentication and I didn"t find. So I started this repository to contribute with the community and improve my knowledge.
 
 ## Credits
 Today just [me](http://github.com/deregudegu) but you can contribute too!

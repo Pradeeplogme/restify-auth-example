@@ -1,0 +1,3 @@
+'*.js':
+  'tabs-to-spaces':
+    'onSave': 'tabify'
