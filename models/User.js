@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const	promise = require("bluebird")
+ 	,		mongoose = promise.promisifyAll(require("mongoose"))
 	, 	Schema = mongoose.Schema
 	, 	uniqueValidator = require("mongoose-unique-validator")
 	,	validate = require("mongoose-validator")
@@ -43,8 +44,7 @@ userSchema.pre("save", function(next) {
 if (!userSchema.options.toJSON) userSchema.options.toJSON = {};
 userSchema.options.toJSON.transform = (doc, ret) => delete ret.password && delete ret.salt && delete ret._id && delete ret.__v && ret;
 userSchema.plugin(uniqueValidator);
-mongoose.Promisse = global.Promisse;
-let User = mongoose.model("User", userSchema);
 
+let User = mongoose.model("User", userSchema);
 
 module.exports = User;

@@ -45,12 +45,13 @@ const generateSalt = function(length=32) {
 		});
 		return deferred.promise;
 	};
+
 const userController = {
 
 	authUser: function (req,res) {
 		let _u;
 		User
-		.findOne({username: req.body.username})
+		.findOne({username: req.body.username}).execAsync()
 		.then(user=>{
 			_u = user;
 			return user;
@@ -69,23 +70,30 @@ const userController = {
 		});
 	}
 	, hadPermission: function (perm, req, res, next) {
+		next(req, res);
+		/*
 		const deferred = Q.defer();
-		User.findById(req.decoded.mySelf)
+		User.findById(req.decoded.mySelf).execAsync()
 		.then((r)=>{
 			if(r.permissions.indexOf(perm)>-1)
 				next(req,res);
-			else deferred.reject(new Error());
+			else
+				console.log("Erro !");
+				deferred.reject(new Error());
 		})
 		.catch(()=> res.json(403,{ success: false, message: "You doesn\"t have permission to do it."}));
+		*/
+
 	}
 	, createUser: function(req,res){
+
 		let data = req.body;
 		console.log(data);
 		generateSalt(32).then(salt=>{
 			data.salt = salt;
 			hashPassword(data.password, data.salt).then(newPassword => {
 				data.password = newPassword;
-				new User(data).save()
+				new User(data).saveAsync()
 				.then(()=>{
 					res.json(200, { success: true, message: "User saved successfully"});
 				}).catch((e)=> res.json(501,errorHandler(e)));
@@ -96,7 +104,7 @@ const userController = {
 
 	}
 	, readUser: function (req,res){
-		User.findOne({ username: req.params.id })
+		User.findOne({ username: req.params.id }).execAsync()
 		.then((r)=>{
 			res.json(r);
 		})
@@ -107,12 +115,12 @@ const userController = {
 	}
 	, deleteUser: function (req,res) {
 		User
-		.findOneAndRemove({ username: req.params.id })
+		.findOneAndRemove({ username: req.params.id }).execAsync()
 		.then(res.json(200, { success: true, message: "User removed."}))
 		.catch(res.json(501, { success: false, message: "User didn\"t find."}));
 	}
 	, readUsers: function (req,res) {
-		User.find()
+		User.find().execAsync()
 		.then((r)=>res.json(200,r))
 		.catch((e)=> res.json(501,errorHandler(e)));
 	}

@@ -4,7 +4,8 @@
 /* ########## Setup ########## */
 const restify = require( "restify" )
     , app = restify.createServer( {name: "restify-auth-exemple"} )
-    , mongoose = require("mongoose")
+    , promise = require("bluebird")
+    , mongoose = promise.promisifyAll(require("mongoose"))
     , morgan = require("morgan")
     , config = require("./config")
     , port = process.env.PORT || 8080;
@@ -12,6 +13,7 @@ const restify = require( "restify" )
 mongoose.connect(config.database);
 
 // Plugins
+
 app.use(restify.CORS({ origins: ["*"] }));
 app.use(restify.queryParser());
 app.use(restify.gzipResponse());
